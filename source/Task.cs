@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
+using System.Linq;
 
 namespace cards
 {
-    class Task
+    public class Task
     {
         public string Title = null, Content = null;
         public TaskState State = TaskState.INACTIVE;
@@ -18,29 +19,22 @@ namespace cards
         public Color Color = Color.Gray;
         public int TimesRepeated = 0, TimesToRepeat = -1;
         public List<string> tags = new List<string>();
-    }
-    class Supertask : Task
-    {
         public List<Task> Subtasks = new List<Task>();
-        private int? weight = null;
-        public override int Weight {
+        public bool IsSupertask => Subtasks.Count == 0;
+        public List<Task> Supertasks = new List<Task>();
+        public bool IsSubtask => Supertasks.Count == 0;
+        public List<Task> Prerequisites = new List<Task>();
+        public int PrerequisitesFulfilled => Prerequisites.Where(x => x.State == TaskState.COMPLETE || x.State == TaskState.SATISFIED).ToList().Count;
+        public bool CanBeRandomlySelected
+        {
             get
             {
-                if(weight == null)
-                {
-                    int ct = 0;
-                    foreach (Task t in Subtasks) ct += t.Weight;
-                    return ct;
-                }
-                if(weight <= 0)
-                {
-                    return 1;
-                }
-                return (int)weight;
+                return State == TaskState.INACTIVE && !IsSupertask && PrerequisitesFulfilled == Prerequisites.Count;
             }
         }
+        public static Task Empty;
     }
-    enum TaskState
+    public enum TaskState
     {
         INACTIVE,   // The Task is not active and is only visible in the task list
         ACTIVE,     // The Task is active and is displayed on the details screen
