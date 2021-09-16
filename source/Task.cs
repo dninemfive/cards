@@ -10,7 +10,17 @@ namespace cards
     {
         #region variables
         public string Title = null, Content = null;
-        public TaskState State = TaskState.INACTIVE;
+        private TaskState _state = TaskState.INACTIVE;
+        public TaskState State
+        {
+            get => _state;
+            set
+            {
+                _state = value;
+                _duration = null;
+                history.Add((DateTime.Now, value));
+            }
+        }
 
         #region time
         public DateTime Deadline;
