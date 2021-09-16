@@ -7,6 +7,9 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-
+        <StackPanel Orientation="Horizontal">
+            <RichTextBox MinWidth="530"/>
+            <TreeView MinWidth="270"/>
+        </StackPanel>
     </Grid>
 </Window>
