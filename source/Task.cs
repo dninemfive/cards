@@ -15,12 +15,28 @@ namespace cards
         #region time
         public DateTime Deadline;
         public DateTime? SatisfiedUntil = null;
-        public TimeSpan? PredictedDuration = null;
-        public TimeSpan? FinalDuration = null;
-
+        public TimeSpan? PredictedDuration = null;        
+        public List<(DateTime stamp, TaskState state)> history = new List<(DateTime stamp, TaskState state)>();
         #region derived
         public TimeSpan TimeRemaining => Deadline - DateTime.Now;
         public bool TimedOut => TimeRemaining <= TimeSpan.Zero;
+        private TimeSpan? _duration = null;
+        public TimeSpan Duration
+        {
+            get
+            {
+                if (_duration != null) return (TimeSpan)_duration;
+                if (history.Count == 0) return TimeSpan.Zero;
+                TimeSpan ct = TimeSpan.Zero;
+                for(int i = 0; i < history.Count - 1; i++)
+                {
+                    (DateTime stamp, TaskState state) curEntry = history[i], nextEntry = history[i + 1];
+                    if (curEntry.state.IsActive()) ct += nextEntry.stamp - curEntry.stamp;
+                }
+                _duration = ct;
+                return ct;
+            }
+        }
         #endregion derived
 
         #endregion time
@@ -36,7 +52,7 @@ namespace cards
         #region derived
         public bool IsSupertask => Subtasks.Count == 0;
         public bool IsSubtask => Supertasks.Count == 0;
-        public int PrerequisitesFulfilled => Prerequisites.Where(x => x.State == TaskState.COMPLETE || x.State == TaskState.SATISFIED).ToList().Count;
+        public int PrerequisitesFulfilled => Prerequisites.Where(x => x.State.WasSuccessful()).ToList().Count;
         #endregion derived
         #endregion metatasks
         #endregion variables
@@ -56,5 +72,16 @@ namespace cards
         COMPLETE,   // The Task is fully complete
         ABANDONED,  // The Task has been removed from the list of incomplete tasks without being completed
         SATISFIED   // The Task is repeating with a delay between repeats and does not need to be completed until the SatisfiedUntil date.
+    }
+    public static class TaskStateExtensions
+    {
+        public static bool IsActive(this TaskState state)
+        {
+            return state == TaskState.ACTIVE;
+        }
+        public static bool WasSuccessful(this TaskState state)
+        {
+            return state == TaskState.COMPLETE || state == TaskState.SATISFIED;
+        }
     }
 }
