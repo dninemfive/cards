@@ -8,8 +8,11 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <StackPanel Orientation="Horizontal">
-            <TextBlock x:Name="TextBlock" Text="" TextWrapping="Wrap" MinWidth="530"/>
-            <TreeView MinWidth="270"/>
-        </StackPanel>
+            <TextBlock x:Name="MainTextBlock" Text="" TextWrapping="Wrap" MinWidth="530"/>
+            <StackPanel Orientation="Vertical" MinWidth="270">
+                <Button x:Name="Button_RandomTask" Content="🔄"></Button>
+                <TreeView x:Name="MainTreeView" MinWidth="270"/>
+            </StackPanel>            
+        </StackPanel>        
     </Grid>
 </Window>

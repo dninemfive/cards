@@ -10,7 +10,7 @@ namespace cards
     {
         #region variables
         public string Title = null, Content = null;
-        private TaskState _state = TaskState.INACTIVE;
+        private TaskState _state = TaskState.INACTIVE;        
         public TaskState State
         {
             get => _state;
@@ -31,6 +31,8 @@ namespace cards
             }
         }
         public static readonly Task Empty = new Task() { Title = "Empty" };
+        public void Activate() { State = TaskState.ACTIVE; }
+        public void Deactivate() { State = TaskState.INACTIVE; }
 
         public override string ToString()
         {
