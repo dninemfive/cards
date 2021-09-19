@@ -31,6 +31,11 @@ namespace cards
             }
         }
         public static readonly Task Empty = new Task() { Title = "Empty" };
+
+        public override string ToString()
+        {
+            return "Task { " + Title + ", " + Content + " }";
+        }
     }
     public enum TaskState
     {
