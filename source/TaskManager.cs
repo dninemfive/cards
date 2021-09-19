@@ -10,8 +10,6 @@ namespace cards
     {
         public const string TaskPath = @"C:\Users\dninemfive\Documents\notes\md\tasks2.yml";
         public static List<Task> AllTasks = new List<Task>();
-        public static List<Task> TasksWhichAre(TaskState s) => AllTasks.Where(x => x.State == s).ToList();
-        public static List<Task> InactiveTasks => TasksWhichAre(TaskState.INACTIVE);
         public static Task RandomTask
         {
             get
