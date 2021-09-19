@@ -23,6 +23,11 @@ namespace cards
         public MainWindow()
         {
             InitializeComponent();
+            TaskManager.LoadTasks();
+            foreach(Task t in TaskManager.AllTasks)
+            {
+                TextBlock.Text += t.ToString() +"\n";
+            }
         }
     }
 }

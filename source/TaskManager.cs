@@ -10,6 +10,8 @@ namespace cards
     {
         public const string TaskPath = @"C:\Users\dninemfive\Documents\notes\md\tasks2.yml";
         public static List<Task> AllTasks = new List<Task>();
+        public static List<Task> TasksWhichAre(TaskState s) => AllTasks.Where(x => x.State == s).ToList();
+        public static List<Task> InactiveTasks => TasksWhichAre(TaskState.INACTIVE);
         public static Task RandomTask
         {
             get
@@ -23,7 +25,7 @@ namespace cards
         public static void LoadTasks()
         {
             string yml = System.IO.File.ReadAllText(TaskPath);
-            Deserializer deserializer = new Deserializer();
+            Deserializer deserializer = new Deserializer(); 
             TaskList list = deserializer.Deserialize<TaskList>(yml);
             foreach(Task t in list.tasks)
             {
