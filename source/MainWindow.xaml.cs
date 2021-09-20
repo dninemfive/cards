@@ -27,11 +27,15 @@ namespace cards
             foreach (Task t in TaskManager.AllTasks) AddTask(t);
             SetActiveTask(TaskManager.NewTask);
         }
-        public void AddTask(Task task)
+        public void AddTask(Task task, ItemsControl control = null)
         {
-            //MainTextBlock.Text += task.ToString() + "\n";
+            if (control == null) control = MainTreeView;
             TreeViewItem tvi = new TreeViewItem() { Header = task.Title };
-            MainTreeView.Items.Add(tvi);
+            control.Items.Add(tvi);
+            foreach(Task t in task.Subtasks)
+            {
+                AddTask(t, tvi);
+            }
         }
         private void Button_RandomTask_Click(object sender, RoutedEventArgs e)
         {
