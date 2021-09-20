@@ -33,10 +33,28 @@ namespace cards
         public static readonly Task Empty = new Task() { Title = "Empty", Content = "Empty placeholder task." };
         public void Activate() { State = TaskState.ACTIVE; }
         public void Deactivate() { State = TaskState.INACTIVE; }
+        public List<Task> Subtasks = new List<Task>();
 
         public override string ToString()
         {
-            return "Task { " + Title + ", " + Content + " }";
+            string str = "Task { " + Title + ", " + Content + " }";
+            if(Subtasks.Count > 0)
+            {
+                str += "\n";
+                foreach (Task t in Subtasks) str += t.ToString() + "\n";
+            }
+            return str;
+        }
+        public (string title, string content) Details(int tabs = 0)
+        {
+            string title = Title;
+            string content = Content;
+            if (Subtasks.Count > 0)
+            {
+                content += "\n\nSubtasks:\n";
+                foreach (Task t in Subtasks) content += "\n\n" + t.Details(tabs + 1);
+            }
+            return (title, content);
         }
     }
     public enum TaskState
