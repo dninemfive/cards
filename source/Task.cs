@@ -45,14 +45,21 @@ namespace cards
             }
             return str;
         }
-        public (string title, string content) Details(int tabs = 0)
+        public (string title, string content) Details(int n = 0)
         {
-            string title = Title;
-            string content = Content;
+            string tabs = "";
+            for (int i = 0; i < n; i++) tabs += "\t";
+            string title = tabs + Title;
+            string content = tabs + Content;
             if (Subtasks.Count > 0)
             {
-                content += "\n\nSubtasks:\n";
-                foreach (Task t in Subtasks) content += "\n\n" + t.Details(tabs + 1);
+                content += "\n\n" + tabs + "Subtasks:";
+                foreach (Task t in Subtasks)
+                {
+                    (string title, string content) details = t.Details(n + 1);
+                    content += "\n- " + details.title;
+                    if(!string.IsNullOrEmpty(details.content)) content += "  " + "\n" + details.content;
+                }
             }
             return (title, content);
         }
