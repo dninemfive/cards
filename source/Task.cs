@@ -56,9 +56,9 @@ namespace cards
                 content += "\n\n" + tabs + "Subtasks:";
                 foreach (Task t in Subtasks)
                 {
-                    (string title, string content) details = t.Details(n + 1);
-                    content += "\n- " + details.title;
-                    if(!string.IsNullOrEmpty(details.content)) content += "  " + "\n" + details.content;
+                    (string subtitle, string subcontent) = t.Details(n + 1);
+                    subcontent += "\n- " + subtitle;
+                    if(!string.IsNullOrEmpty(subcontent)) subcontent += "  " + "\n" + subcontent;
                 }
             }
             return (title, content);

@@ -44,9 +44,9 @@ namespace cards
         public void SetActiveTask(Task t)
         {
             if(t == null) return;
-            (string title, string content) deets = t.Details();
-            MainTitle.Text = deets.title;
-            MainContent.Text = deets.content;
+            (string title, string content) = t.Details();
+            MainTitle.Text = title;
+            MainContent.Text = content;
         }
     }
 }
