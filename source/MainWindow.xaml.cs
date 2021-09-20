@@ -23,6 +23,25 @@ namespace cards
         public MainWindow()
         {
             InitializeComponent();
+            TaskManager.LoadTasks();
+            foreach (Task t in TaskManager.AllTasks) AddTask(t);
+            SetActiveTask(TaskManager.NewTask);
+        }
+        public void AddTask(Task task)
+        {
+            //MainTextBlock.Text += task.ToString() + "\n";
+            TreeViewItem tvi = new TreeViewItem() { Header = task.Title };
+            MainTreeView.Items.Add(tvi);
+        }
+        private void Button_RandomTask_Click(object sender, RoutedEventArgs e)
+        {
+            SetActiveTask(TaskManager.NewTask);
+        }
+        public void SetActiveTask(Task t)
+        {
+            if(t == null) return;
+            MainTitle.Text = t.Title;
+            MainContent.Text = t.Content;
         }
     }
 }
