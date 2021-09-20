@@ -31,7 +31,7 @@ namespace cards
             get
             {
                 Task newTask = RandomTask;
-                if (newTask == Task.Empty) return null;
+                if (newTask == Task.Empty) return Task.Empty;
                 Task oldTask = CurrentTask;
                 CurrentTask = newTask;
                 CurrentTask.Activate();

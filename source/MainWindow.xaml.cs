@@ -25,6 +25,7 @@ namespace cards
             InitializeComponent();
             TaskManager.LoadTasks();
             foreach (Task t in TaskManager.AllTasks) AddTask(t);
+            SetActiveTask(TaskManager.NewTask);
         }
         public void AddTask(Task task)
         {
@@ -34,8 +35,13 @@ namespace cards
         }
         private void Button_RandomTask_Click(object sender, RoutedEventArgs e)
         {
-            Task newTask = TaskManager.NewTask;
-            MainTextBlock.Text = newTask.Title += "\n--------\n\n" + newTask.Content;
+            SetActiveTask(TaskManager.NewTask);
+        }
+        public void SetActiveTask(Task t)
+        {
+            if(t == null) return;
+            MainTitle.Text = t.Title;
+            MainContent.Text = t.Content;
         }
     }
 }

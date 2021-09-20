@@ -27,10 +27,10 @@ namespace cards
         {
             get
             {
-                return !State.IsSelectable();
+                return State.IsSelectable();
             }
         }
-        public static readonly Task Empty = new Task() { Title = "Empty" };
+        public static readonly Task Empty = new Task() { Title = "Empty", Content = "Empty placeholder task." };
         public void Activate() { State = TaskState.ACTIVE; }
         public void Deactivate() { State = TaskState.INACTIVE; }
 

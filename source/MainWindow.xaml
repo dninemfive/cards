@@ -7,12 +7,16 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <StackPanel Orientation="Horizontal">
-            <TextBlock x:Name="MainTextBlock" Text="" TextWrapping="Wrap" MinWidth="530"/>
-            <StackPanel Orientation="Vertical" MinWidth="270">
-                <Button x:Name="Button_RandomTask" Content="🔄"></Button>
-                <TreeView x:Name="MainTreeView" MinWidth="270"/>
-            </StackPanel>            
+        <StackPanel Orientation="Horizontal"> <!-- Main container -->
+            <StackPanel Orientation="Vertical">
+                <!-- holds title, content, reload button-->
+                <Grid MinWidth="530">
+                    <TextBlock x:Name="MainTitle" Text="" TextWrapping="Wrap" HorizontalAlignment="Left"/>
+                    <Button x:Name="Button_RandomTask" Content="🔄" HorizontalAlignment="Right" Focusable="True" Click="Button_RandomTask_Click"/>
+                </Grid>
+                <TextBlock x:Name="MainContent" Text="" TextWrapping="Wrap"/>
+            </StackPanel>
+            <TreeView x:Name="MainTreeView" MinWidth="270"/>
         </StackPanel>        
     </Grid>
 </Window>
