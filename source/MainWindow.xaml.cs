@@ -44,7 +44,7 @@ namespace cards
         public void SetActiveTask(Task t)
         {
             if(t == null) return;
-            (string title, List<Run> content) = t.Details();
+            (string title, Span content) = t.Details();
             SetTitle(title);
             FillContent(content);
         }
@@ -55,10 +55,10 @@ namespace cards
             MainTitle.Inlines.Add(new Run(s) { FontWeight = FontWeights.Bold });
         }
 
-        public void FillContent(List<Run> content)
+        public void FillContent(Span content)
         {
             MainContent.Inlines.Clear();
-            foreach (Run r in content) MainContent.Inlines.Add(r);
+            MainContent.Inlines.Add(content);
         }
     }
 }

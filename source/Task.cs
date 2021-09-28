@@ -47,24 +47,24 @@ namespace cards
             }
             return str;
         }
-        public (string title, List<Run> content) Details(int n = 0)
+        public (string title, Span content) Details(int n = 0)
         {
             string tabs = "";
             for (int i = 0; i < n; i++) tabs += "\t";
             string title;
             title = tabs + Title;
-            List<Run> content = new List<Run>() { new Run(tabs + Content) };
+            Span content = new Span();
+            content.Inlines.Add(new Run(tabs + content));
             if (Subtasks.Count > 0)
             {
-                content.Add(new Run("\n\n" + tabs + "Subtasks:"));
+                content.Inlines.Add(new Run("\n\n" + tabs + "Subtasks:"));
                 foreach (Task t in Subtasks)
                 {
-                    (string subtitle, List<Run> subcontent) = t.Details(n + 1);
-                    content.Add(new Run("\n" + subtitle + "\n") { FontWeight = FontWeights.Bold });
-                    foreach(Run r in subcontent)
-                    {
-                        content.Add(r);
-                    }
+                    Span newSpan = new Span();
+                    (string subtitle, Span subcontent) = t.Details(n + 1);
+                    newSpan.Inlines.Add(new Run("\n" + subtitle + "\n") { FontWeight = FontWeights.Bold });
+                    newSpan.Inlines.Add(subcontent);
+                    content.Inlines.Add(newSpan);
                 }
             }
             return (title, content);
