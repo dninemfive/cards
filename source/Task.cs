@@ -54,7 +54,7 @@ namespace cards
             string title;
             title = tabs + Title;
             Span content = new Span();
-            content.Inlines.Add(new Run(tabs + content));
+            content.Inlines.Add(content);
             if (Subtasks.Count > 0)
             {
                 content.Inlines.Add(new Run("\n\n" + tabs + "Subtasks:"));
@@ -63,7 +63,12 @@ namespace cards
                     Span newSpan = new Span();
                     (string subtitle, Span subcontent) = t.Details(n + 1);
                     newSpan.Inlines.Add(new Run("\n" + subtitle + "\n") { FontWeight = FontWeights.Bold });
-                    newSpan.Inlines.Add(subcontent);
+                    List<TextElement> subcontentRuns = new List<TextElement>();
+                    foreach(Inline inline in subcontent.Inlines)
+                    {
+                        if (inline is TextElement te) subcontentRuns.Add(te);
+                    }
+                    foreach (TextElement te in subcontentRuns) newSpan.Inlines.Add(te);
                     content.Inlines.Add(newSpan);
                 }
             }
