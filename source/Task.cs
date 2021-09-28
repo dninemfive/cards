@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 using System.Linq;
+using System.Windows.Documents;
+using System.Windows;
 
 namespace cards
 {
@@ -45,20 +47,24 @@ namespace cards
             }
             return str;
         }
-        public (string title, string content) Details(int n = 0)
+        public (string title, List<Run> content) Details(int n = 0)
         {
             string tabs = "";
             for (int i = 0; i < n; i++) tabs += "\t";
-            string title = tabs + Title;
-            string content = tabs + Content;
+            string title;
+            title = tabs + Title;
+            List<Run> content = new List<Run>() { new Run(tabs + Content) };
             if (Subtasks.Count > 0)
             {
-                content += "\n\n" + tabs + "Subtasks:";
+                content.Add(new Run("\n\n" + tabs + "Subtasks:"));
                 foreach (Task t in Subtasks)
                 {
-                    (string subtitle, string subcontent) = t.Details(n + 1);
-                    subcontent += "\n- " + subtitle;
-                    if(!string.IsNullOrEmpty(subcontent)) subcontent += "  " + "\n" + subcontent;
+                    (string subtitle, List<Run> subcontent) = t.Details(n + 1);
+                    content.Add(new Run("\n" + subtitle + "\n") { FontWeight = FontWeights.Bold });
+                    foreach(Run r in subcontent)
+                    {
+                        content.Add(r);
+                    }
                 }
             }
             return (title, content);

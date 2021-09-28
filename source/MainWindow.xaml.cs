@@ -44,9 +44,21 @@ namespace cards
         public void SetActiveTask(Task t)
         {
             if(t == null) return;
-            (string title, string content) = t.Details();
-            MainTitle.Text = title;
-            MainContent.Text = content;
+            (string title, List<Run> content) = t.Details();
+            SetTitle(title);
+            FillContent(content);
+        }
+
+        public void SetTitle(string s)
+        {
+            MainTitle.Inlines.Clear();
+            MainTitle.Inlines.Add(new Run(s) { FontWeight = FontWeights.Bold });
+        }
+
+        public void FillContent(List<Run> content)
+        {
+            MainContent.Inlines.Clear();
+            foreach (Run r in content) MainContent.Inlines.Add(r);
         }
     }
 }
